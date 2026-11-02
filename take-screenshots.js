@@ -24,7 +24,7 @@ async function run() {
   await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
   await new Promise((r) => setTimeout(r, 2000));
 
-  // 1. Overview screenshot
+  // 1. Overview screenshot (Voice mic + Category breakdown)
   const shot1 = path.join(OUTPUT_DIR, '01_dashboard_overview.png');
   await page.screenshot({ path: shot1, fullPage: false });
   fs.copyFileSync(shot1, path.join(ROOT_OUTPUT_DIR, '01_dashboard_overview.png'));
@@ -41,7 +41,6 @@ async function run() {
     }
   }
 
-  // Wait for agent execution
   await new Promise((r) => setTimeout(r, 3500));
   const shot2 = path.join(OUTPUT_DIR, '02_autonomous_capture.png');
   await page.screenshot({ path: shot2, fullPage: false });
@@ -64,6 +63,27 @@ async function run() {
   await page.screenshot({ path: shot3, fullPage: false });
   fs.copyFileSync(shot3, path.join(ROOT_OUTPUT_DIR, '03_human_in_the_loop_approval.png'));
   console.log('Saved 03_human_in_the_loop_approval.png');
+
+  // 4. Click first transaction in ledger to expand and click "View Verified PayPal Compliance Receipt"
+  console.log('Opening PayPal compliance receipt modal...');
+  const ledgerItems = await page.$$('.cursor-pointer');
+  if (ledgerItems.length > 0) {
+    await ledgerItems[0].click();
+    await new Promise((r) => setTimeout(r, 800));
+    const receiptBtns = await page.$$('button');
+    for (const rbtn of receiptBtns) {
+      const text = await page.evaluate((el) => el.innerText, rbtn);
+      if (text.includes('View Verified PayPal Compliance Receipt')) {
+        await rbtn.click();
+        break;
+      }
+    }
+    await new Promise((r) => setTimeout(r, 1000));
+    const shot4 = path.join(OUTPUT_DIR, '04_compliance_receipt_modal.png');
+    await page.screenshot({ path: shot4, fullPage: false });
+    fs.copyFileSync(shot4, path.join(ROOT_OUTPUT_DIR, '04_compliance_receipt_modal.png'));
+    console.log('Saved 04_compliance_receipt_modal.png');
+  }
 
   await browser.close();
   console.log('All screenshots captured successfully!');

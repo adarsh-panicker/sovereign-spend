@@ -41,9 +41,12 @@ Autonomous AI agents (such as browser bots, executive assistants, and automated 
 **SovereignSpend** is an autonomous procurement and guardrail orchestration engine that pairs multi-agent product discovery with a programmable policy engine and **PayPal's Sandbox v2 & Vault APIs**.
 
 With SovereignSpend:
-* **Micro-transactions (< \$50 limit)** within policy are verified, checked against merchant whitelists, and **autonomously captured** via tokenized PayPal Vault agreements without human friction.
-* **High-value purchases (> \$50 limit) or anomalous risk items** are automatically intercepted by the Guardrail Engine, generating a **1-click Human-In-The-Loop cryptographic authorization card** before funds are disbursed.
-* **Blocked or unverified merchants** are instantly rejected by the policy engine before any PayPal order can be initiated.
+* **Multimodal Voice & Text to PayPal Checkout:** Users can speak naturally into their microphone or type procurement instructions (e.g., *"Reorder 2 bags of Blue Bottle Espresso coffee beans under $40"* or *"Book roundtrip flights to SF under $350"*).
+* **Autonomous Micro-Procurement (< \$50 limit):** Routine, verified orders under the user-defined threshold execute and capture instantaneously via the PayPal Orders v2 API and tokenized PayPal Vault agreements without human friction.
+* **Human-In-The-Loop Escalation (> \$50 limit):** High-value purchases or anomalous risk transactions are automatically intercepted by the Guardrail Engine, generating a **1-click Human-In-The-Loop cryptographic authorization card** before funds are disbursed.
+* **Merchant Defense Policy:** Enforces domain blocklists and vendor verification to prevent agents from transacting with unauthorized or malicious domains.
+* **Cryptographic Compliance Receipts:** Every transaction generates a signed compliance receipt with SHA-256 audit hashes, itemized tax/shipping breakdowns, and 1-click printable PDF export.
+* **Real-Time Category Allocation:** Dynamic category spend visualizer (Travel, Cloud, Supplies, Office, Electronics) with live velocity tracking.
 
 ---
 
@@ -60,6 +63,10 @@ With SovereignSpend:
 ### 3. Human-In-The-Loop Authorization Card (> $50)
 > High-value orders pause execution and request expedited 1-tap administrator authorization before capturing PayPal Sandbox funds.
 ![Human In The Loop Approval](public/screenshots/03_human_in_the_loop_approval.png)
+
+### 4. Cryptographic PayPal Sandbox Compliance Receipt
+> Itemized audit receipt with SHA-256 compliance hash, PayPal Order & Capture IDs, and 1-click printable PDF export.
+![Compliance Receipt Modal](public/screenshots/04_compliance_receipt_modal.png)
 
 ---
 

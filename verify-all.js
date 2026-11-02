@@ -145,6 +145,13 @@ async function runBrowserTests() {
   const slider = await page.$('input[type="range"]');
   assert(slider !== null, 'Auto-spend limit slider input is rendered');
 
+  // Check Voice-to-Checkout button
+  const micButton = await page.$('button[title*="Voice"]');
+  assert(micButton !== null, 'Voice-to-Checkout microphone control is rendered');
+
+  // Check Category Allocation
+  assert(pageContent.includes('Category Allocation'), 'Real-time category allocation visualizer is rendered');
+
   // Check no unhandled JS errors on load
   assert(consoleErrors.length === 0, `Zero client-side uncaught JS exceptions (found ${consoleErrors.length})`);
 
