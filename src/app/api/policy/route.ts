@@ -1,8 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { getPolicy, updatePolicy } from '@/lib/store';
 
-export async function GET() {
-  return NextResponse.json(getPolicy());
+export async function GET(request: NextRequest) {
+  return NextResponse.json(getPolicy(), {
+    headers: {
+      'Cache-Control': 'no-store, max-age=0',
+    },
+  });
 }
 
 export async function POST(req: Request) {

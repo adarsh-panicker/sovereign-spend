@@ -41,36 +41,51 @@ export async function executeProcurementAgent(prompt: string): Promise<AgentExec
   let riskScore = 15;
   let reasoning = 'Selected best-rated vendor offering competitive pricing with verified PayPal Merchant status.';
 
+  let merchantVerified = true;
+
+  // Check if prompt specifically mentions any known unverified or blocked vendor domains
+  const knownSuspicious = ['sketchy-deals-discount.xyz', 'crypto-fast-pay.biz', 'unverified-reseller.io'];
+  const matchedSuspicious = knownSuspicious.find((s) => lower.includes(s));
+
+  if (matchedSuspicious) {
+    merchant = matchedSuspicious;
+    merchantVerified = false;
+    riskScore = 85;
+    reasoning = `Merchant domain '${matchedSuspicious}' identified as unverified third-party reseller.`;
+  }
+
   if (lower.includes('coffee') || lower.includes('beans') || lower.includes('snack')) {
     itemTitle = 'Organic Whole Bean Espresso Roast (2 lbs)';
     category = 'supplies';
-    merchant = 'Blue Bottle Coffee Co.';
+    if (!matchedSuspicious) merchant = 'Blue Bottle Coffee Co.';
     unitPrice = 18.5;
     quantity = lower.includes('2') ? 2 : 1;
     shipping = 0.0;
     estimatedTax = 2.59;
-    riskScore = 12;
+    if (!matchedSuspicious) riskScore = 12;
     reasoning = 'Matched requested coffee roast from verified direct supplier. Free 2-day delivery applied.';
   } else if (lower.includes('flight') || lower.includes('travel') || lower.includes('ticket') || lower.includes('hotel') || lower.includes('sf') || lower.includes('san francisco')) {
     itemTitle = 'Roundtrip Airfare: Austin (AUS) to San Francisco (SFO)';
     category = 'travel';
-    merchant = 'United Airlines via TravelDesk';
+    if (!matchedSuspicious) merchant = 'United Airlines via TravelDesk';
     unitPrice = 328.4;
     quantity = 1;
     shipping = 0.0;
     estimatedTax = 24.6;
-    riskScore = 48; // Higher value trigger
+    if (!matchedSuspicious) riskScore = 48; // Higher value trigger
     reasoning = 'Located lowest non-stop economy itinerary within requested Friday arrival constraints.';
   } else if (lower.includes('webcam') || lower.includes('camera') || lower.includes('headphone') || lower.includes('cable') || lower.includes('keyboard') || lower.includes('monitor')) {
     itemTitle = lower.includes('webcam') ? 'Logitech Brio 4K Ultra HD Pro Webcam' : 'Anker Braided High-Speed HDMI 2.1 Cable (Pack of 2)';
     category = 'electronics';
-    merchant = 'Best Buy Enterprise';
+    if (!matchedSuspicious) merchant = 'Best Buy Enterprise';
     unitPrice = lower.includes('webcam') ? 129.99 : 16.99;
     quantity = 1;
     shipping = 0.0;
     estimatedTax = unitPrice * 0.0825;
-    riskScore = lower.includes('webcam') ? 35 : 10;
-    reasoning = 'Verified official manufacturer warranty, high merchant trust rating, and immediate dispatch availability.';
+    if (!matchedSuspicious) riskScore = lower.includes('webcam') ? 35 : 10;
+    reasoning = matchedSuspicious
+      ? `Product requested from unauthorized source ${matchedSuspicious}.`
+      : 'Verified official manufacturer warranty, high merchant trust rating, and immediate dispatch availability.';
   } else if (lower.includes('cloud') || lower.includes('api') || lower.includes('compute') || lower.includes('server') || lower.includes('aws')) {
     itemTitle = 'Cloud GPU Compute Credits (40 hrs On-Demand H100)';
     category = 'cloud';
@@ -111,7 +126,7 @@ export async function executeProcurementAgent(prompt: string): Promise<AgentExec
     itemTitle,
     category,
     merchant,
-    merchantVerified: true,
+    merchantVerified,
     unitPrice,
     quantity,
     estimatedTax,
