@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="50%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Glow Circle -->
+  <circle cx="100" cy="100" r="90" fill="#0B132B" opacity="0.6"/>
+  <circle cx="100" cy="100" r="70" fill="url(#shieldGrad)" opacity="0.15" filter="url(#glow)"/>
+
+  <!-- Outer Shield Geometry -->
+  <path d="M100 20 L160 50 C160 115 130 160 100 180 C70 160 40 115 40 50 Z" 
+        fill="url(#shieldGrad)" 
+        stroke="#60A5FA" 
+        stroke-width="3" 
+        stroke-linejoin="round"
+        filter="url(#glow)"/>
+
+  <!-- Inner Vault Shield -->
+  <path d="M100 36 L146 60 C146 110 122 145 100 162 C78 145 54 110 54 60 Z" 
+        fill="#090D1A" 
+        stroke="#1E40AF" 
+        stroke-width="2"/>
+
+  <!-- Circuit lines representing AI & Agentic Commerce -->
+  <path d="M100 55 L100 80 M75 85 L90 85 M125 85 L110 85 M100 120 L100 145" 
+        stroke="#38BDF8" 
+        stroke-width="2.5" 
+        stroke-linecap="round"/>
+  <circle cx="100" cy="80" r="3" fill="#38BDF8"/>
+  <circle cx="75" cy="85" r="3" fill="#38BDF8"/>
+  <circle cx="125" cy="85" r="3" fill="#38BDF8"/>
+  <circle cx="100" cy="120" r="3" fill="#38BDF8"/>
+
+  <!-- Sovereign Diamond Vault Core -->
+  <polygon points="100,75 122,100 100,125 78,100" 
+           fill="url(#coreGrad)" 
+           stroke="#FDE047" 
+           stroke-width="2"/>
+  
+  <circle cx="100" cy="100" r="7" fill="#FFFFFF"/>
+</svg>
